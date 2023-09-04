@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AlumnoService } from './alumno.service';
 import { AlumnoController } from './alumno.controller';
+import { Alumno } from './entities/alumno.entity';
+import { TypeOrmModule } from '@nestjs/typeorm/dist';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Alumno])],
   controllers: [AlumnoController],
   providers: [AlumnoService]
 })

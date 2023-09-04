@@ -1,9 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { CreateAlumnoDto } from "../dto/create-alumno.dto";
+import { instanceToPlain, plainToInstance } from "class-transformer";
+import { UpdateAlumnoDto } from "../dto/update-alumno.dto";
 
 @Entity({name: 'alumno'})
 export class Alumno {
   @PrimaryGeneratedColumn({name: 'alumno_id'})
-  private id: number;
+  id: number;
 
   @Column({
     name: 'nombre',
@@ -27,4 +30,19 @@ export class Alumno {
     nullable: true,
   })
   private nacimiento: Date;
+
+  static fromCreateDTO(dto: CreateAlumnoDto): Alumno {
+    const data = instanceToPlain(dto);
+    return plainToInstance(Alumno, data);
+  }
+
+  static fromUpdateDTO(dto: UpdateAlumnoDto): Alumno {
+    const data = instanceToPlain(dto);
+    return plainToInstance(Alumno, data);
+  }
+
+  static toUpdateDTO(alumno: Alumno): UpdateAlumnoDto {
+    const data = instanceToPlain(alumno);
+    return plainToInstance(UpdateAlumnoDto, data);
+  }
 }

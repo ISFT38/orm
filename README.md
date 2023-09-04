@@ -62,6 +62,7 @@ $ npm run test:cov
 Instalamos TypeORM y el driver del SGBD que vamos a utilizar.
 ```bash
 npm install --save @nestjs/typeorm typeorm postgresql
+npm install --save pg
 ```
 
 ## Generando un recurso
@@ -96,6 +97,46 @@ export class AppModule {}
 En este script creamos el usuario y la base de datos.
 En una primer instancia del desarrollo, utilizamos la propiedad synchronize para actualizar el schema con nuestra definición de la entidad.
 Corremos el script en el SGDB para crear los recursos necesarios para conectarnos.
+
+## Completando la entidad
+Agregamos los atributos con las anotaciones o decoradores a la entidad.
+
+```typescript
+@Entity({name: 'alumno'})
+export class Alumno {
+  @PrimaryGeneratedColumn({name: 'alumno_id'})
+  private id: number;
+
+  @Column({
+    name: 'nombre',
+    type: 'varchar',
+    length: 80,
+    nullable: false,
+  })
+  nombre: string;
+
+  @Column({
+    name: 'apellido',
+    type: 'varchar',
+    length: 80,
+    nullable: false,
+  })
+  private apellido: string;
+
+  @Column({
+    name: 'nacimiento',
+    type: 'date',
+    nullable: true,
+  })
+  private nacimiento: Date;
+}
+```
+## Completar los servicios
+Escribimos los servicios con el patrón Repository ayudandonos de class-transformer para ir de las entidades a los DTOs y viceversa.
+```bash
+npm install class-transformer --save
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
